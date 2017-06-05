@@ -80,10 +80,10 @@ class Actor:
 
 
 class FlixsterMovieDetails:
-    def __init__(self, average, not_interested_count, likability, scores_count, want_to_see_count, popcorn_score):
-        self.average = average
+    def __init__(self, average_rating, not_interested_count, likability_score, scores_count, want_to_see_count, popcorn_score):
+        self.average_rating = average_rating
         self.not_interested_count = not_interested_count
-        self.likability = likability
+        self.likability_score = likability_score
         self.scores_count = scores_count
         self.want_to_see_count = want_to_see_count
         self.popcorn_score = popcorn_score
