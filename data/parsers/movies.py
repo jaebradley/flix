@@ -33,6 +33,9 @@ def parse_movie(movie_details):
         parse_actor(actor)
         for actor in movie_details["actors"]
     ]
+    reviews = movie_details["reviews"]
+    flixster_movie_details = parse_flixster_movie_details(reviews["flixster"]) if "flixster" in movie_details["review"] else None
+    rotten_tomatoes_movie_details = parse_rotten_tomatoes_movie_details(reviews["rottenTomatoes"]) if "rottenTomatoes" in movie_details["review"] else None
     return Movie(fid=movie_details["id"],
                  release_date=dateutil.parser.parse(movie_details["releaseDate"]),
                  title=movie_details["title"],
@@ -42,5 +45,5 @@ def parse_movie(movie_details):
                  is_opening=movie_details["isOpening"],
                  trailer_url=movie_details["trailer"]["hd"],
                  actors=actors,
-                 flixster_movie_details=parse_flixster_movie_details(movie_details["reviews"]["flixster"]),
-                 rotten_tomatoes_movie_details=parse_rotten_tomatoes_movie_details(movie_details["reviews"]["rottenTomatoes"]))
+                 flixster_movie_details=flixster_movie_details,
+                 rotten_tomatoes_movie_details=rotten_tomatoes_movie_details)
