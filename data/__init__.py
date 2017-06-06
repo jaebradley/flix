@@ -108,3 +108,9 @@ class Movie:
         self.trailer_url = trailer_url
         self.actors = actors
         self.rotten_tomatoes_movie_details = rotten_tomatoes_movie_details
+
+
+class TheatersData:
+    def __init__(self, theaters, movies):
+        self.theaters = theaters
+        self.movies = movies
