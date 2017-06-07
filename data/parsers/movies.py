@@ -34,16 +34,16 @@ def parse_movie(movie_details):
         for actor in movie_details["actors"]
     ]
     reviews = movie_details["reviews"]
-    flixster_movie_details = parse_flixster_movie_details(reviews["flixster"]) if "flixster" in movie_details["review"] else None
-    rotten_tomatoes_movie_details = parse_rotten_tomatoes_movie_details(reviews["rottenTomatoes"]) if "rottenTomatoes" in movie_details["review"] else None
+    flixster_movie_details = parse_flixster_movie_details(reviews["flixster"]) if "flixster" in movie_details["reviews"] else None
+    rotten_tomatoes_movie_details = parse_rotten_tomatoes_movie_details(reviews["rottenTomatoes"]) if "rottenTomatoes" in movie_details["reviews"] else None
     return Movie(fid=movie_details["id"],
-                 release_date=dateutil.parser.parse(movie_details["releaseDate"]),
+                 release_date=dateutil.parser.parse(movie_details["releaseDate"]) if movie_details["releaseDate"] != "" else None,
                  title=movie_details["title"],
                  mpaa_rating=movie_details["mpaa"],
                  run_time=movie_details["runningTime"],
                  is_live=movie_details["isLive"],
                  is_opening=movie_details["isOpening"],
-                 trailer_url=movie_details["trailer"]["hd"],
+                 trailer_url=movie_details["trailer"]["hd"] if "hd" in movie_details["trailer"] else None,
                  actors=actors,
                  flixster_movie_details=flixster_movie_details,
                  rotten_tomatoes_movie_details=rotten_tomatoes_movie_details)

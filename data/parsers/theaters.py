@@ -32,11 +32,13 @@ def parse_performance(performance_details):
 
 
 def parse_movie_schedule(schedule_details):
-    presentations = [
-        parse_presentation(presentation)
-        for presentation in schedule_details["presentations"]
-    ]
-    return MovieSchedule(movie_id=schedule_details["id"], presentations=presentations)
+    schedules = []
+    for schedule_detail in schedule_details:
+        presentations = []
+        for presentation in schedule_detail["presentations"]:
+            presentations.append(parse_presentation(presentation))
+        schedules.append(MovieSchedule(movie_id=schedule_detail["id"], presentations=presentations))
+    return schedules
 
 
 def parse_movies(movies_details):
@@ -50,8 +52,8 @@ def parse_theater(theater_details):
     return Theater(fid=theater_details["id"],
                    name=theater_details["name"],
                    has_fees=theater_details["hasFees"],
-                   has_tickets=theater_details["hasTickets"],
-                   ticket_source=theater_details["FDG"],
+                   has_tickets=theater_details["tickets"],
+                   ticket_source=theater_details["ticketSource"],
                    screen_count=theater_details["screens"],
                    map_uri=theater_details["map"],
                    phone_number=theater_details["callablePhone"],

@@ -26,14 +26,14 @@ class Performance:
 
 
 class PresentationCategory(Enum):
-    STANDARD = "Standard"
-    THREE_D = "3D"
+    STANDARD = "STANDARD"
+    THREE_D = "THREE_D"
     IMAX = "IMAX"
-    FOUR_K = "4K Digital"
-    THREE_D_4K = "3D 4K Digital"
-    IMAX_3D = "IMAX 3D"
-    IMAX_3D_4K = "IMAX 3D 4K Digital"
-    IMAX_4K = "IMAX 4K Digital"
+    FOUR_K = "FOUR_K"
+    THREE_D_4K = "THREE_D_4K"
+    IMAX_3D = "IMAX_3D"
+    IMAX_3D_4K = "IMAX_3D_4K"
+    IMAX_4K = "IMAX_4K"
 
     @staticmethod
     def identify(value):
