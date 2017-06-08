@@ -1,7 +1,7 @@
 from datetime import date
 from flixster import FlixsterClient, TheaterInformationQuery
 
-from data import TheatersData
+from data import MoviePresentations
 from data.parsers.movies import parse_movie
 from data.parsers.theaters import parse_theater
 
@@ -34,4 +34,4 @@ def fetch_parsed_theater_data(start_date=date.today(), movie_id=None, limit=5):
                             for performance in presentation.performances
                         ]
 
-    return movie_presentations_mapping
+    return MoviePresentations(theaters=theaters, movie_presentations_mapping=movie_presentations_mapping)

@@ -107,10 +107,11 @@ class Movie:
         self.is_opening = is_opening
         self.trailer_url = trailer_url
         self.actors = actors
+        self.flixster_movie_details = flixster_movie_details
         self.rotten_tomatoes_movie_details = rotten_tomatoes_movie_details
 
 
-class TheatersData:
-    def __init__(self, theaters, movies):
+class MoviePresentations:
+    def __init__(self, theaters, movie_presentations_mapping):
         self.theaters = theaters
-        self.movies = movies
+        self.movie_presentations_mapping = movie_presentations_mapping
