@@ -6,7 +6,7 @@ from data.parsers.movies import parse_movie
 from data.parsers.theaters import parse_theater
 
 
-def fetch_parsed_theater_data(start_date=date.today(), movie_id=None, limit=5):
+def fetch_parsed_theater_data(start_date=date.today(), movie_id=None, limit=2):
     query = TheaterInformationQuery(date=start_date, movie_id=movie_id, limit=limit)
     theaters_response = FlixsterClient.get_theater_information(query)
     theaters = [
@@ -29,6 +29,7 @@ def fetch_parsed_theater_data(start_date=date.today(), movie_id=None, limit=5):
             for movie_schedule in theater.movie_schedules:
                 if movie_schedule.movie_id == movie.fid:
                     for presentation in movie_schedule.presentations:
+                        movie_presentations_mapping[movie.fid]["theaters"][theater.fid] = {"category": {}}
                         movie_presentations_mapping[movie.fid]["theaters"][theater.fid]["category"][presentation.category] = [
                             performance.start_time
                             for performance in presentation.performances

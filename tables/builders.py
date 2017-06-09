@@ -7,10 +7,10 @@ def build_table(movie_presentations):
     headers = build_headers(movie_presentations.theaters)
     rows = [
         build_row(movie_presentation)
-        for movie_presentation in movie_presentations
+        for movie_id, movie_presentation in movie_presentations.movie_presentations_mapping.items()
     ]
     theater_metadata_row = build_theater_metadata_row(movie_presentations.theaters)
-    all_rows = headers + rows + theater_metadata_row
+    all_rows = [headers] + rows + [theater_metadata_row]
     table = SingleTable(all_rows)
     table.inner_row_border = True
     return table.table
