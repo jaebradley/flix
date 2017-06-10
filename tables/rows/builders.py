@@ -6,6 +6,10 @@ from tables.builders import build_category_table
 from tables.utilities import get_mpaa_rating_color, get_movie_rating_percentage_color, get_formatted_boolean
 
 
+def build_rows(movie_presentations_mapping):
+    return [build_row(movie_presentations) for movie_presentations in movie_presentations_mapping.keys()]
+
+
 def build_row(movie_presentations):
     row = [get_movie_details_cell(movie_presentations["details"])]
     for theater_id, theater_keys in movie_presentations["theaters"].items():
