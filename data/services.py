@@ -10,14 +10,8 @@ from data.parsers.theaters import parse_theater
 def fetch_parsed_theater_data(start_date=date.today(), movie_id=None, limit=2):
     query = TheaterInformationQuery(date=start_date, movie_id=movie_id, limit=limit)
     theaters_response = FlixsterClient.get_theater_information(query)
-    theaters = [
-        parse_theater(theater)
-        for theater_id, theater in theaters_response["theaters"].items()
-    ]
-    movies = [
-        parse_movie(movie)
-        for movie_id, movie in theaters_response["movies"].items()
-    ]
+    theaters = [parse_theater(theater) for theater_id, theater in theaters_response["theaters"].items()]
+    movies = [parse_movie(movie) for movie_id, movie in theaters_response["movies"].items()]
 
     movie_presentations_mapping = {}
 

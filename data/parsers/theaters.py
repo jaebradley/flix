@@ -15,20 +15,12 @@ def parse_address(address_details):
 
 def parse_presentation(presentation_details):
     # looks like only one trait group?
-    trait_group = presentation_details["traitGroups"][0]
-
-    performances = [
-        parse_performance(performance)
-        for performance in trait_group["performances"]
-    ]
-
     return Presentation(category=PresentationCategory.identify(value=presentation_details["name"]),
-                        performances=performances)
+                        performances=parse_performances( presentation_details["traitGroups"][0]["performances"]))
 
 
 def parse_performance(performance_details):
-    return Performance(start_time=parser.parse(performance_details["isoDate"]),
-                       code=performance_details["code"])
+    return Performance(start_time=parser.parse(performance_details["isoDate"]), code=performance_details["code"])
 
 
 def parse_movie_schedule(schedule_details):
@@ -41,11 +33,12 @@ def parse_movie_schedule(schedule_details):
     return schedules
 
 
+def parse_performances(performances):
+    return [parse_performance(performance) for performance in performances]
+
+
 def parse_movies(movies_details):
-    return [
-        parse_movie_schedule(movie_schedule)
-        for movie_schedule in movies_details["movies"]
-    ]
+    return [parse_movie_schedule(movie_schedule) for movie_schedule in movies_details["movies"]]
 
 
 def parse_theater(theater_details):
