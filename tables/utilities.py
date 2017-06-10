@@ -91,8 +91,3 @@ def get_category_color(category):
         return "IMAX in 4K"
 
     raise RuntimeError("Unknown category: {category}".format(category=category))
-
-def clean_html(raw_html):
-    cleanr = re.compile('<.*?>')
-    clean_text = re.sub(cleanr, '', raw_html)
-    return clean_text
