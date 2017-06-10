@@ -13,14 +13,14 @@ def parse_rotten_tomatoes_movie_details(movie_details):
 
 def parse_movie(movie_details):
     return Movie(fid=movie_details["id"],
-                 release_date=get_release_date(movie_details["releaseDate"]),
+                 release_date=parse_release_date(movie_details["releaseDate"]),
                  title=movie_details["title"],
                  mpaa_rating=movie_details["mpaa"],
                  run_time=movie_details["runningTime"],
                  is_live=movie_details["isLive"],
                  is_opening=movie_details["isOpening"],
-                 trailer_url=get_trailer_url(movie_details["trailer"]),
-                 actors=get_actors(movie_details["actors"]),
+                 trailer_url=parse_trailer_url(movie_details["trailer"]),
+                 actors=parse_actors(movie_details["actors"]),
                  flixster_movie_details=get_flixster_movie_details(movie_details["reviews"]),
                  rotten_tomatoes_movie_details=get_rotten_tomatoes_movie_details(movie_details["reviews"]))
 
@@ -44,21 +44,21 @@ def parse_flixster_movie_details(movie_details):
                                 popcorn_score=movie_details["popcornScore"])
 
 
-def get_trailer_url(trailer_details):
+def parse_trailer_url(trailer_details):
     if "hd" in trailer_details:
         return trailer_details["hd"]
 
     return None
 
 
-def get_release_date(release_date):
+def parse_release_date(release_date):
     if release_date != "":
         return dateutil.parser.parse(release_date)
 
     return None
 
 
-def get_actors(actors):
+def parse_actors(actors):
     return [parse_actor(actor) for actor in actors]
 
 

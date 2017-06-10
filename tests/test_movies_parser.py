@@ -2,8 +2,8 @@ from unittest import TestCase
 
 from mock import Mock, patch
 from data import FlixsterMovieDetails, Actor, RottenTomatoesMovieDetails, Movie
-from data.parsers.movies import get_flixster_movie_details, get_rotten_tomatoes_movie_details, get_actors, \
-    get_release_date, get_trailer_url, parse_flixster_movie_details, parse_actor, parse_rotten_tomatoes_movie_details, \
+from data.parsers.movies import get_flixster_movie_details, get_rotten_tomatoes_movie_details, parse_actors, \
+    parse_release_date, parse_trailer_url, parse_flixster_movie_details, parse_actor, parse_rotten_tomatoes_movie_details, \
     parse_movie
 
 
@@ -31,13 +31,13 @@ class TestGetRottenTomatoesMovieDetails(TestCase):
 
 class TestGetReleaseDate(TestCase):
     def test_returns_none_for_empty_release_date(self):
-        self.assertIsNone(get_release_date(""))
+        self.assertIsNone(parse_release_date(""))
 
     @patch("dateutil.parser.parse")
     def test_returns_parsed_date(self, mocked_date_parser):
         parsed_date = "parsed date"
         mocked_date_parser.return_value = parsed_date
-        self.assertEqual(parsed_date, get_release_date("foo"))
+        self.assertEqual(parsed_date, parse_release_date("foo"))
 
 
 class TestGetActors(TestCase):
@@ -46,15 +46,15 @@ class TestGetActors(TestCase):
         parsed_actor = "parsed actor"
         mocked_actors_parser.return_value = parsed_actor
         expected = [parsed_actor, parsed_actor]
-        self.assertEqual(expected, get_actors([1, 2]))
+        self.assertEqual(expected, parse_actors([1, 2]))
 
 
 class TestGetTrailerUrl(TestCase):
     def test_returns_none_for_empty_hd_trailer(self):
-        self.assertIsNone(get_trailer_url({}))
+        self.assertIsNone(parse_trailer_url({}))
 
     def test_returns_hd_trailer(self):
-        self.assertEqual("foo", get_trailer_url({"hd": "foo"}))
+        self.assertEqual("foo", parse_trailer_url({"hd": "foo"}))
 
 
 class TestParseFlixsterMovieDetails(TestCase):
@@ -139,9 +139,9 @@ class TestParseMovie(TestCase):
         "reviews": reviews
     }
 
-    @patch("data.parsers.movies.get_release_date")
-    @patch("data.parsers.movies.get_trailer_url")
-    @patch("data.parsers.movies.get_actors")
+    @patch("data.parsers.movies.parse_release_date")
+    @patch("data.parsers.movies.parse_trailer_url")
+    @patch("data.parsers.movies.parse_actors")
     @patch("data.parsers.movies.get_flixster_movie_details")
     @patch("data.parsers.movies.get_rotten_tomatoes_movie_details")
     def test_parses_successfully(self, mocked_rotten_tomatoes_movie_details, mocked_flixster_movie_details, mocked_actors, mocked_trailer_url, mocked_release_date):
