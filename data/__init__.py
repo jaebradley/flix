@@ -190,7 +190,8 @@ class Movie:
 
 
 class MoviePresentations:
-    def __init__(self, theaters, movie_presentations_mapping):
+    def __init__(self, date, theaters, movie_presentations_mapping):
+        self.date = date
         self.theaters = theaters
         self.movie_presentations_mapping = movie_presentations_mapping
 
