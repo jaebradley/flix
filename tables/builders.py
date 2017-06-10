@@ -14,7 +14,7 @@ def build_table(movie_presentations):
 
 def get_all_rows(movie_presentations):
     return [get_headers(movie_presentations.theaters)] + \
-           build_rows(movie_presentations) + \
+           build_rows(movie_presentations.movie_presentations_mapping) + \
            [build_theater_metadata_row(movie_presentations.theaters)]
 
 
