@@ -5,7 +5,7 @@ setup(
   install_requires=[
     "Click==6.7",
     "flixster==0.0.2",
-    "terminaltables==3.1.0",
+    "colored==1.3.5",
     "termcolor==1.1.0",
     "python-dateutil==2.6.0"
   ],

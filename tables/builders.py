@@ -1,4 +1,6 @@
+from textwrap import wrap
 from terminaltables import SingleTable
+from colored import fg, bg, attr, stylize
 
 from tables.rows.builders import build_row, build_theater_metadata_row
 
@@ -19,7 +21,7 @@ def build_table(movie_presentations):
 def build_headers(theaters):
     headers = ["Movies / Theaters"]
     theater_names = [
-        theater.name
+        "\n".join(wrap(stylize(theater.name, attr("bold"), attr("underlined")), 30))
         for theater in theaters
     ]
     return headers + theater_names
