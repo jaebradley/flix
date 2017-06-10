@@ -1,9 +1,28 @@
-from data import Actor, FlixsterMovieDetails, RottenTomatoesMovieDetails, Movie
+import re
 
 import dateutil
 
+from data import Actor, FlixsterMovieDetails, RottenTomatoesMovieDetails, Movie
 
-import re
+
+def parse_rotten_tomatoes_movie_details(movie_details):
+    return RottenTomatoesMovieDetails(rating=movie_details["rating"],
+                                      is_certified_fresh=movie_details["certifiedFresh"],
+                                      consensus=clean_html(movie_details["consensus"]))
+
+
+def parse_movie(movie_details):
+    return Movie(fid=movie_details["id"],
+                 release_date=get_release_date(movie_details["releaseDate"]),
+                 title=movie_details["title"],
+                 mpaa_rating=movie_details["mpaa"],
+                 run_time=movie_details["runningTime"],
+                 is_live=movie_details["isLive"],
+                 is_opening=movie_details["isOpening"],
+                 trailer_url=get_trailer_url(movie_details["trailer"]),
+                 actors=get_actors(movie_details["actors"]),
+                 flixster_movie_details=get_flixster_movie_details(movie_details["reviews"]),
+                 rotten_tomatoes_movie_details=get_rotten_tomatoes_movie_details(movie_details["reviews"]))
 
 
 def clean_html(raw_html):
@@ -20,30 +39,38 @@ def parse_flixster_movie_details(movie_details):
     return FlixsterMovieDetails(average_rating=movie_details["average"],
                                 not_interested_count=movie_details["numNotInterested"],
                                 likability_score=movie_details["likeability"],
-                                scores_count=movie_details["numScores"], want_to_see_count=movie_details["numWantToSee"],
+                                scores_count=movie_details["numScores"],
+                                want_to_see_count=movie_details["numWantToSee"],
                                 popcorn_score=movie_details["popcornScore"])
 
 
-def parse_rotten_tomatoes_movie_details(movie_details):
-    return RottenTomatoesMovieDetails(rating=movie_details["rating"], is_certified_fresh=movie_details["certifiedFresh"], consensus=clean_html(movie_details["consensus"]))
+def get_trailer_url(trailer_details):
+    if "hd" in trailer_details:
+        return trailer_details["hd"]
+
+    return None
 
 
-def parse_movie(movie_details):
-    actors = [
-        parse_actor(actor)
-        for actor in movie_details["actors"]
-    ]
-    reviews = movie_details["reviews"]
-    flixster_movie_details = parse_flixster_movie_details(reviews["flixster"]) if "flixster" in movie_details["review"] else None
-    rotten_tomatoes_movie_details = parse_rotten_tomatoes_movie_details(reviews["rottenTomatoes"]) if "rottenTomatoes" in movie_details["review"] else None
-    return Movie(fid=movie_details["id"],
-                 release_date=dateutil.parser.parse(movie_details["releaseDate"]),
-                 title=movie_details["title"],
-                 mpaa_rating=movie_details["mpaa"],
-                 run_time=movie_details["runningTime"],
-                 is_live=movie_details["isLive"],
-                 is_opening=movie_details["isOpening"],
-                 trailer_url=movie_details["trailer"]["hd"],
-                 actors=actors,
-                 flixster_movie_details=flixster_movie_details,
-                 rotten_tomatoes_movie_details=rotten_tomatoes_movie_details)
+def get_release_date(release_date):
+    if release_date != "":
+        return dateutil.parser.parse(release_date)
+
+    return None
+
+
+def get_actors(actors):
+    return [parse_actor(actor) for actor in actors]
+
+
+def get_rotten_tomatoes_movie_details(reviews):
+    if "rottenTomatoes" in reviews:
+        return parse_rotten_tomatoes_movie_details(reviews["rottenTomatoes"])
+
+    return None
+
+
+def get_flixster_movie_details(reviews):
+    if "flixster" in reviews:
+        return parse_flixster_movie_details(reviews["flixster"])
+
+    return None

@@ -26,14 +26,14 @@ class Performance:
 
 
 class PresentationCategory(Enum):
-    STANDARD = "Standard"
-    THREE_D = "3D"
+    STANDARD = "STANDARD"
+    THREE_D = "THREE_D"
     IMAX = "IMAX"
-    FOUR_K = "4K Digital"
-    THREE_D_4K = "3D 4K Digital"
-    IMAX_3D = "IMAX 3D"
-    IMAX_3D_4K = "IMAX 3D 4K Digital"
-    IMAX_4K = "IMAX 4K Digital"
+    FOUR_K = "FOUR_K"
+    THREE_D_4K = "THREE_D_4K"
+    IMAX_3D = "IMAX_3D"
+    IMAX_3D_4K = "IMAX_3D_4K"
+    IMAX_4K = "IMAX_4K"
 
     @staticmethod
     def identify(value):
@@ -107,10 +107,11 @@ class Movie:
         self.is_opening = is_opening
         self.trailer_url = trailer_url
         self.actors = actors
+        self.flixster_movie_details = flixster_movie_details
         self.rotten_tomatoes_movie_details = rotten_tomatoes_movie_details
 
 
-class TheatersData:
-    def __init__(self, theaters, movies):
+class MoviePresentations:
+    def __init__(self, theaters, movie_presentations_mapping):
         self.theaters = theaters
-        self.movies = movies
+        self.movie_presentations_mapping = movie_presentations_mapping
