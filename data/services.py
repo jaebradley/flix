@@ -12,7 +12,10 @@ def fetch_parsed_theater_data(start_date=date.today(), movie_id=None, limit=2):
     theaters_response = FlixsterClient.get_theater_information(query)
     theaters = [parse_theater(theater) for theater_id, theater in theaters_response["theaters"].items()]
     movies = [parse_movie(movie) for movie_id, movie in theaters_response["movies"].items()]
+    return build_movie_presentations(date=start_date, movies=movies, theaters=theaters)
 
+
+def build_movie_presentations(date, movies, theaters):
     movie_presentations_mapping = {}
 
     for movie in movies:
@@ -25,9 +28,8 @@ def fetch_parsed_theater_data(start_date=date.today(), movie_id=None, limit=2):
                 if movie_schedule.movie_id == movie.fid:
                     movie_presentations_mapping[movie.fid]["theaters"][theater.fid] = {"category": {}}
                     for presentation in movie_schedule.presentations:
-                        movie_presentations_mapping[movie.fid]["theaters"][theater.fid]["category"][presentation.category] = [
-                            performance.start_time
-                            for performance in presentation.performances
-                            ]
+                        category = movie_presentations_mapping[movie.fid]["theaters"][theater.fid]["category"]
+                        category[presentation.category] = [performance.start_time for performance in
+                                                           presentation.performances]
 
-    return MoviePresentations(theaters=theaters, movie_presentations_mapping=movie_presentations_mapping)
+    return MoviePresentations(date=date, theaters=theaters, movie_presentations_mapping=movie_presentations_mapping)

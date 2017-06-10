@@ -18,11 +18,37 @@ class Address:
         self.latitude = latitude
         self.distance_from_current_location = distance_from_current_location
 
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash(tuple(sorted(self.__dict__.items())))
+
 
 class Performance:
     def __init__(self, start_time, code):
         self.start_time = start_time
         self.code = code
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash(tuple(sorted(self.__dict__.items())))
 
 
 class PresentationCategory(Enum):
@@ -78,6 +104,19 @@ class Actor:
         self.name = name
         self.url = url
 
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash(tuple(sorted(self.__dict__.items())))
+
 
 class FlixsterMovieDetails:
     def __init__(self, average_rating, not_interested_count, likability_score, scores_count, want_to_see_count, popcorn_score):
@@ -88,12 +127,38 @@ class FlixsterMovieDetails:
         self.want_to_see_count = want_to_see_count
         self.popcorn_score = popcorn_score
 
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash(tuple(sorted(self.__dict__.items())))
+
 
 class RottenTomatoesMovieDetails:
     def __init__(self, rating, is_certified_fresh, consensus):
         self.rating = rating
         self.is_certified_fresh = is_certified_fresh
         self.consensus = consensus
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash(tuple(sorted(self.__dict__.items())))
 
 
 class Movie:
@@ -110,8 +175,35 @@ class Movie:
         self.flixster_movie_details = flixster_movie_details
         self.rotten_tomatoes_movie_details = rotten_tomatoes_movie_details
 
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash(tuple(sorted(self.__dict__.items())))
+
 
 class MoviePresentations:
-    def __init__(self, theaters, movie_presentations_mapping):
+    def __init__(self, date, theaters, movie_presentations_mapping):
+        self.date = date
         self.theaters = theaters
         self.movie_presentations_mapping = movie_presentations_mapping
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash(tuple(sorted(self.__dict__.items())))
