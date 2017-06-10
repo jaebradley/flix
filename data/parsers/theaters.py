@@ -26,9 +26,7 @@ def parse_performance(performance_details):
 def parse_movie_schedule(schedule_details):
     schedules = []
     for schedule_detail in schedule_details:
-        presentations = []
-        for presentation in schedule_detail["presentations"]:
-            presentations.append(parse_presentation(presentation))
+        presentations = [parse_presentation(presentation) for presentation in schedule_detail["presentations"]]
         schedules.append(MovieSchedule(movie_id=schedule_detail["id"], presentations=presentations))
     return schedules
 

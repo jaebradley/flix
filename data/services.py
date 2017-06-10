@@ -23,11 +23,11 @@ def fetch_parsed_theater_data(start_date=date.today(), movie_id=None, limit=2):
             movie_presentations_mapping[movie.fid]["theaters"][theater.fid]["details"] = theater
             for movie_schedule in theater.movie_schedules:
                 if movie_schedule.movie_id == movie.fid:
+                    movie_presentations_mapping[movie.fid]["theaters"][theater.fid] = {"category": {}}
                     for presentation in movie_schedule.presentations:
-                        movie_presentations_mapping[movie.fid]["theaters"][theater.fid] = {"category": {}}
                         movie_presentations_mapping[movie.fid]["theaters"][theater.fid]["category"][presentation.category] = [
                             performance.start_time
                             for performance in presentation.performances
-                        ]
+                            ]
 
     return MoviePresentations(theaters=theaters, movie_presentations_mapping=movie_presentations_mapping)

@@ -1,14 +1,13 @@
 from textwrap import wrap
 
 from colored import fg, attr, stylize
-from terminaltables import SingleTable
 
 from tables.utilities import get_mpaa_rating_color, get_movie_rating_percentage_color, get_formatted_boolean, \
     get_category_name
 
 
 def build_rows(movie_presentations_mapping):
-    return [build_row(movie_presentations) for movie_presentations in movie_presentations_mapping.keys()]
+    return [build_row(movie_presentations) for movie_presentations in movie_presentations_mapping.values()]
 
 
 def build_row(movie_presentations):
@@ -17,7 +16,7 @@ def build_row(movie_presentations):
         if "category" not in theater_keys:
             row.append(stylize("No Times Available", fg("red"), attr("bold")))
         else:
-            row.append(build_category_table(theater_keys["category"]))
+            row.append(build_categories_start_times(theater_keys["category"]))
 
     return row
 
@@ -26,20 +25,18 @@ def build_theater_metadata_row(theaters):
     return [""] + [get_theater_details_cell(theater) for theater in theaters]
 
 
-def build_category_table(category_start_times):
-    table = SingleTable(get_all_category_table_rows(category_start_times))
-    table.outer_border = False
-    table.inner_heading_row_border = False
-    return table.table
+def build_categories_start_times(categories):
+    return "\n".join([
+        build_category_start_times(category, start_times)
+        for category, start_times in categories.items()
+    ])
 
 
-def get_all_category_table_rows(category_start_times):
-    return [get_category_table_headers(category_start_times.keys())] + \
-           [get_start_times_row(category_start_times.values())]
-
-
-def get_category_table_headers(categories):
-    return [stylize(get_category_name(category), attr("bold")) for category in categories]
+def build_category_start_times(category, start_times):
+    return """
+{category}
+{start_times}
+    """.format(category=get_category_name(category), start_times=get_formatted_start_times(start_times))
 
 
 def get_theater_details_cell(theater):
