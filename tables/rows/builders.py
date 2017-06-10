@@ -36,24 +36,22 @@ def build_category_start_times(category, start_times):
     return """
 {category}
 {start_times}
-    """.format(category=get_category_name(category), start_times=get_formatted_start_times(start_times))
+    """.format(category=get_formatted_header(get_category_name(category)),
+               start_times=get_formatted_start_times(start_times))
 
 
 def get_theater_details_cell(theater):
     return """
 {phone_number}
-{address}
+{street}
+{city}
 {distance_from_current_location} mi. away
-
-{has_tickets_header} {has_tickets}
-{has_fees_header} {has_fees}
-    """.format(phone_number=theater.phone_number,
-               address=get_formatted_address(theater.address),
+    """.format(phone_number=get_formatted_header(theater.phone_number),
+               street=get_formatted_street(theater.address.street),
+               city=get_formatted_city(theater.address.city),
                distance_from_current_location=round(theater.address.distance_from_current_location, 1),
                has_tickets_header=get_formatted_header("Online Tickets?"),
-               has_tickets=get_formatted_boolean(theater.has_tickets),
-               has_fees_header=get_formatted_header("Fees?"),
-               has_fees=get_formatted_boolean(theater.has_fees))
+               has_tickets=get_formatted_boolean(theater.has_tickets))
 
 
 def get_movie_details_cell(movie):
@@ -66,9 +64,6 @@ def get_movie_details_cell(movie):
 
 {release_date_header}: {release_date}
 {run_time_header}: {run_time}
-
-{actors_header}
-{actors}
     """.format(title=get_formatted_movie_title(movie.title),
                release_date_header=get_formatted_header("Release Date"),
                release_date=movie.release_date.strftime("%-m/%-d"),
@@ -76,8 +71,6 @@ def get_movie_details_cell(movie):
                mpaa_rating=get_formatted_mpaa_rating(movie.mpaa_rating),
                run_time_header=get_formatted_header("Runtime"),
                run_time=movie.run_time,
-               actors_header=get_formatted_header("Actors"),
-               actors=get_formatted_actors(movie.actors),
                flixster_rating_header=get_formatted_header("Flixster"),
                flixster_average_rating=get_formatted_flixster_rating(movie.flixster_movie_details),
                rotten_tomatoes_rating_header=get_formatted_header("Rotten Tomatoes"),
@@ -100,8 +93,12 @@ def get_formatted_start_times(start_times):
     return "\n".join([start_time.strftime("%-I:%M %p") for start_time in start_times])
 
 
-def get_formatted_address(address):
-    return "\n".join(wrap("{street}, {city}".format(street=address.street, city=address.city), 30))
+def get_formatted_street(street):
+    return "\n".join(wrap(get_formatted_header("{street}".format(street=street)), 30))
+
+
+def get_formatted_city(city):
+    return "\n".join(wrap(get_formatted_header("{city}".format(city=city)), 30))
 
 
 def get_formatted_actors(actors):
