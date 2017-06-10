@@ -1,4 +1,5 @@
 from datetime import date
+
 from flixster import FlixsterClient, TheaterInformationQuery
 
 from data import MoviePresentations

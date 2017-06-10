@@ -1,9 +1,8 @@
-from data import Actor, FlixsterMovieDetails, RottenTomatoesMovieDetails, Movie
+import re
 
 import dateutil
 
-
-import re
+from data import Actor, FlixsterMovieDetails, RottenTomatoesMovieDetails, Movie
 
 
 def clean_html(raw_html):

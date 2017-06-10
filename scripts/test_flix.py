@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from tables.builders import build_table
 from data.services import fetch_parsed_theater_data
+from tables.builders import build_table
 
 
 class TestFlix(TestCase):
