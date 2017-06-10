@@ -1,9 +1,10 @@
 from textwrap import wrap
 
 from colored import fg, attr, stylize
+from terminaltables import SingleTable
 
-from tables.builders import build_category_table
-from tables.utilities import get_mpaa_rating_color, get_movie_rating_percentage_color, get_formatted_boolean
+from tables.utilities import get_mpaa_rating_color, get_movie_rating_percentage_color, get_formatted_boolean, \
+    get_category_name
 
 
 def build_rows(movie_presentations_mapping):
@@ -23,6 +24,22 @@ def build_row(movie_presentations):
 
 def build_theater_metadata_row(theaters):
     return [""] + [get_theater_details_cell(theater) for theater in theaters]
+
+
+def build_category_table(category_start_times):
+    table = SingleTable(get_all_category_table_rows(category_start_times))
+    table.outer_border = False
+    table.inner_heading_row_border = False
+    return table.table
+
+
+def get_all_category_table_rows(category_start_times):
+    return [get_category_table_headers(category_start_times.keys())] + \
+           [get_start_times_row(category_start_times.values())]
+
+
+def get_category_table_headers(categories):
+    return [stylize(get_category_name(category), attr("bold")) for category in categories]
 
 
 def get_theater_details_cell(theater):
