@@ -14,13 +14,13 @@ def build_table(movie_presentations):
 
 
 def get_all_rows(movie_presentations):
-    return [get_headers(movie_presentations.theaters)] + \
+    return [get_headers(movie_presentations.date, movie_presentations.theaters)] + \
            build_rows(movie_presentations.movie_presentations_mapping) + \
            [build_theater_metadata_row(movie_presentations.theaters)]
 
 
-def get_headers(theaters):
-    return ["Movies / Theaters"] + [get_formatted_theater_header_name(theater.name) for theater in theaters]
+def get_headers(date, theaters):
+    return ["Movies on {date}".format(date=date.strftime("%-m/%-d"))] + [get_formatted_theater_header_name(theater.name) for theater in theaters]
 
 
 def get_formatted_theater_header_name(name):

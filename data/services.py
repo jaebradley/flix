@@ -7,11 +7,15 @@ from data.parsers.movies import parse_movie
 from data.parsers.theaters import parse_theater
 
 
-def fetch_parsed_theater_data(start_date=date.today(), movie_id=None, limit=2):
-    query = TheaterInformationQuery(date=start_date, movie_id=movie_id, limit=limit)
+def fetch_parsed_theater_data(start_date=date.today(), movie_name=None, limit=2):
+    query = TheaterInformationQuery(date=start_date, limit=limit)
     theaters_response = FlixsterClient.get_theater_information(query)
     theaters = [parse_theater(theater) for theater_id, theater in theaters_response["theaters"].items()]
-    movies = [parse_movie(movie) for movie_id, movie in theaters_response["movies"].items()]
+    if movie_name is not None:
+        movies = [parse_movie(movie) for movie in theaters_response["movies"].values() if movie_name.lower() in movie["title"].lower()]
+    else:
+        movies = [parse_movie(movie)for movie_id, movie in theaters_response["movies"].items()]
+
     return build_movie_presentations(date=start_date, movies=movies, theaters=theaters)
 
 
