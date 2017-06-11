@@ -58,13 +58,13 @@ class TestGetDate(TestCase):
         weekday = "weekday"
         next_weekday = "next weekday"
         mocked_next_weekday.return_value = next_weekday
-        self.assertEqual(next_weekday, get_date(weekday=weekday))
+        self.assertEqual(next_weekday, get_date(day=weekday))
         mocked_next_weekday.assert_called_once_with(weekday)
 
     @patch("data.time.identify_month_integer_from_abbreviation")
     @patch("data.time.get_next_date")
     def test_day_is_not_none_and_use_month_abbreviation(self, mocked_next_date, mocked_month_integer):
-        day = "day"
+        day = 10
         month_abbreviation = "month abbreviation"
         next_date = "next date"
         month_integer = "month integer"

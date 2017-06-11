@@ -30,16 +30,17 @@ weekday_abbreviation_to_weekday_integer = {
 }
 
 
-def get_date(use_tomorrow=False, weekday=None, month=None, day=None):
+def get_date(use_tomorrow=False, month=None, day=None):
     today = date.today()
 
     if use_tomorrow:
         return today + timedelta(days=1)
 
-    if weekday is not None:
-        return get_next_weekday_date(weekday)
-
     if day is not None:
+        # if day is a string it is a weekday abbreviation
+        if type(day) == str:
+            return get_next_weekday_date(day)
+
         if type(month) == str:
             month = identify_month_integer_from_abbreviation(month)
 

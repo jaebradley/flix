@@ -10,7 +10,9 @@ MONTH_CHOICES = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
 ]
 
-WEEKDAY_CHOICES = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+DAY_CHOICES = ["mon", "tue", "wed", "thu", "fri", "sat", "sun",
+               1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+               16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
 
 THEATER_LIMIT_CHOICES = [1, 2, 3, 4, 5]
 
@@ -19,13 +21,12 @@ THEATER_LIMIT_CHOICES = [1, 2, 3, 4, 5]
 @click.option("-n", "--name")
 @click.option("-t", "--tomorrow", is_flag=True)
 @click.option("-m", "--month", type=click.Choice(MONTH_CHOICES))
-@click.option("-d", "--day", type=int)
-@click.option("-w", "--weekday", type=click.Choice(WEEKDAY_CHOICES))
+@click.option("-d", "--day", type=click.Choice(DAY_CHOICES))
 @click.option("-l", "--limit", default=2, type=click.Choice([1, 2, 3, 4, 5]))
-def flix(name, tomorrow, month, day, weekday, limit):
+def flix(name, tomorrow, month, day, limit):
     try:
         try:
-            date = get_date(use_tomorrow=tomorrow, weekday=weekday, month=month, day=day)
+            date = get_date(use_tomorrow=tomorrow, month=month, day=day)
         except InvalidDateException:
             click.echo("Invalid date inputs")
             return
