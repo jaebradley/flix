@@ -30,19 +30,19 @@ weekday_abbreviation_to_weekday_integer = {
 }
 
 
-def get_date(use_tomorrow, weekday, month, day):
+def get_date(use_tomorrow=False, weekday=None, month=None, day=None):
     today = date.today()
 
     if use_tomorrow:
         return today + timedelta(days=1)
 
-    if weekday:
+    if weekday is not None:
         return get_next_weekday_date(weekday)
 
-    if type(month) == str:
-        month = identify_month_integer(month)
-
     if day is not None:
+        if type(month) == str:
+            month = identify_month_integer_from_abbreviation(month)
+
         return get_next_date(day=day, month=month)
 
     return today
@@ -67,19 +67,19 @@ def get_next_date(day, month=None):
     return current_year_date
 
 
-def identify_month_integer(month):
-    month_value = month_abbreviation_to_month_integer.get(month.lower())
+def identify_month_integer_from_abbreviation(month_abbreviation):
+    month_value = month_abbreviation_to_month_integer.get(month_abbreviation.lower())
 
     if month_value is None:
-        raise ValueError("Unknown month: {month}".format(month=month))
+        raise ValueError("Unknown month: {month}".format(month=month_abbreviation))
 
     return month_value
 
 
-def get_next_weekday_date(weekday):
-    weekday_integer = weekday_abbreviation_to_weekday_integer.get(weekday.lower())
+def get_next_weekday_date(weekday_abbreviation):
+    weekday_integer = weekday_abbreviation_to_weekday_integer.get(weekday_abbreviation.lower())
 
     if weekday_integer is None:
-        raise ValueError("Unknown weekday: {weekday}".format(weekday=weekday))
+        raise ValueError("Unknown weekday: {weekday}".format(weekday=weekday_abbreviation))
 
     return date.today() + relativedelta(weekday=weekday_integer)
