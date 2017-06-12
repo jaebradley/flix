@@ -61,3 +61,32 @@ class TestGetFormattedBoolean(TestCase):
 
     def test_false_returns_x(self):
         self.assertEqual("✗", get_formatted_boolean(False))
+
+
+class TestGetCategoryColor(TestCase):
+    def test_throws_exception_for_unknown_category(self):
+        self.assertRaises(ValueError, get_category_color, "jaebaebae")
+
+    def test_standard(self):
+        self.assertEqual("blue", get_category_color(PresentationCategory.STANDARD))
+
+    def test_three_d(self):
+        self.assertEqual("green", get_category_color(PresentationCategory.THREE_D))
+
+    def test_imax(self):
+        self.assertEqual("red", get_category_color(PresentationCategory.IMAX))
+
+    def test_four_k(self):
+        self.assertEqual("yellow", get_category_color(PresentationCategory.FOUR_K))
+
+    def test_three_d_four_k(self):
+        self.assertEqual("purple", get_category_color(PresentationCategory.THREE_D_4K))
+
+    def test_imax_3d(self):
+        self.assertEqual("cyan", get_category_color(PresentationCategory.IMAX_3D))
+
+    def test_imax_3d_4k(self):
+        self.assertEqual("orange", get_category_color(PresentationCategory.IMAX_3D_4K))
+
+    def test_imax_4k(self):
+        self.assertEqual("magenta", get_category_color(PresentationCategory.IMAX_4K))
