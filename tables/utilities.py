@@ -26,7 +26,7 @@ def get_category_name(category):
     if category == PresentationCategory.IMAX_4K:
         return "IMAX in 4K"
 
-    raise RuntimeError("Unknown category: {category}".format(category=category))
+    raise ValueError("Unknown category: {category}".format(category=category))
 
 
 def get_mpaa_rating_color(mpaa_rating):

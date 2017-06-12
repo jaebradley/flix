@@ -37,23 +37,24 @@ def get_date(use_tomorrow=False, month=None, day=None):
         return today + timedelta(days=1)
 
     if day is not None:
-        # if day is a string it is a weekday abbreviation
-        if type(day) == str:
+        # if day is not a digit it is a weekday abbreviation
+        if not day.isdigit():
             return get_next_weekday_date(day)
 
-        if type(month) == str:
+        if month is not None and not month.isdigit():
             month = identify_month_integer_from_abbreviation(month)
+        elif month is not None and month.isdigit():
+            month = int(month)
+        else:
+            month = today.month
 
-        return get_next_date(day=day, month=month)
+        return get_next_date(day=int(day), month=month)
 
     return today
 
 
-def get_next_date(day, month=None):
+def get_next_date(day, month):
     today = date.today()
-
-    if month is None:
-        month = today.month
 
     current_year = today.year
 
