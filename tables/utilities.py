@@ -26,7 +26,7 @@ def get_category_name(category):
     if category == PresentationCategory.IMAX_4K:
         return "IMAX in 4K"
 
-    raise RuntimeError("Unknown category: {category}".format(category=category))
+    raise ValueError("Unknown category: {category}".format(category=category))
 
 
 def get_mpaa_rating_color(mpaa_rating):
@@ -67,27 +67,27 @@ def get_formatted_boolean(value):
 
 def get_category_color(category):
     if category == PresentationCategory.STANDARD:
-        return "Standard"
+        return "blue"
 
     if category == PresentationCategory.THREE_D:
-        return "3D"
+        return "green"
 
     if category == PresentationCategory.IMAX:
-        return "IMAX"
+        return "red"
 
     if category == PresentationCategory.FOUR_K:
-        return "4K"
+        return "yellow"
 
     if category == PresentationCategory.THREE_D_4K:
-        return "3D in 4K"
+        return "purple"
 
     if category == PresentationCategory.IMAX_3D:
-        return "IMAX 3D"
+        return "cyan"
 
     if category == PresentationCategory.IMAX_3D_4K:
-        return "IMAX 3D in 4K (aka 'Get over yourself')"
+        return "orange"
 
     if category == PresentationCategory.IMAX_4K:
-        return "IMAX in 4K"
+        return "magenta"
 
-    raise RuntimeError("Unknown category: {category}".format(category=category))
+    raise ValueError("Unknown category: {category}".format(category=category))

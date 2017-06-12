@@ -31,10 +31,6 @@ class TestGetNextDate(TestCase):
     def test_raises_for_invalid_date(self):
         self.assertRaises(InvalidDateException, get_next_date, day=1, month=13)
 
-    def test_month_not_defined(self):
-        today = date.today()
-        self.assertEqual(today, get_next_date(day=today.day))
-
     def test_month_defined(self):
         today = date.today()
         self.assertEqual(today, get_next_date(day=today.day, month=today.month))
@@ -64,7 +60,7 @@ class TestGetDate(TestCase):
     @patch("data.time.identify_month_integer_from_abbreviation")
     @patch("data.time.get_next_date")
     def test_day_is_not_none_and_use_month_abbreviation(self, mocked_next_date, mocked_month_integer):
-        day = 10
+        day = "10"
         month_abbreviation = "month abbreviation"
         next_date = "next date"
         month_integer = "month integer"
@@ -72,4 +68,4 @@ class TestGetDate(TestCase):
         mocked_month_integer.return_value = month_integer
         self.assertEqual(next_date, get_date(day=day, month=month_abbreviation))
         mocked_month_integer.assert_called_once_with(month_abbreviation)
-        mocked_next_date.assert_called_once_with(day=day, month=month_integer)
+        mocked_next_date.assert_called_once_with(day=10, month=month_integer)

@@ -1,6 +1,6 @@
 from textwrap import wrap
 
-from colored import attr, stylize
+from colored import attr, stylize, fg
 from terminaltables import SingleTable
 
 from tables.rows.builders import build_rows, build_theater_metadata_row
@@ -20,7 +20,7 @@ def get_all_rows(movie_presentations):
 
 
 def get_headers(date, theaters):
-    return ["Movies on {date}".format(date=date.strftime("%-m/%-d"))] + [get_formatted_theater_header_name(theater.name) for theater in theaters]
+    return ["Movies on {date}".format(date=stylize(date.strftime("%-m/%-d"), fg("blue")))] + [get_formatted_theater_header_name(theater.name) for theater in theaters]
 
 
 def get_formatted_theater_header_name(name):

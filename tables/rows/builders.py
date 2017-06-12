@@ -3,7 +3,7 @@ from textwrap import wrap
 from colored import fg, attr, stylize
 
 from tables.utilities import get_mpaa_rating_color, get_movie_rating_percentage_color, get_formatted_boolean, \
-    get_category_name
+    get_category_name, get_category_color
 
 
 def build_rows(movie_presentations_mapping):
@@ -36,7 +36,7 @@ def build_category_start_times(category, start_times):
     return """
 {category}
 {start_times}
-    """.format(category=get_formatted_header(get_category_name(category)),
+    """.format(category=get_formatted_category(category),
                start_times=get_formatted_start_times(start_times))
 
 
@@ -78,7 +78,7 @@ def get_movie_details_cell(movie):
 
 
 def get_formatted_movie_title(title):
-    return "\n".join(wrap(get_formatted_header(title), 50))
+    return "\n".join([get_formatted_header(part) for part in wrap(title, 30)])
 
 
 def get_formatted_header(header):
@@ -121,3 +121,7 @@ def get_formatted_rotten_tomatoes_rating(rotten_tomatoes_movie_details):
 
 def get_formatted_mpaa_rating(rating):
     return stylize(rating, fg(get_mpaa_rating_color(rating)))
+
+
+def get_formatted_category(category):
+    return stylize(get_formatted_header(get_category_name(category)), fg(get_category_color(category)))
