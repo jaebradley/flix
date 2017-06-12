@@ -37,7 +37,7 @@ class TestGetCategoryName(TestCase):
 
 class TestGetMovieRatingPercentageColor(TestCase):
     def test_throws_exception_for_unexpected_rating(self):
-        self.assertRaises(ValueError, get_movie_rating_percentage_color, "jaebaebae")
+        self.assertRaises(ValueError, get_movie_rating_percentage_color, 200)
 
     def test_returns_color_for_rating_percentage_less_than_20(self):
         self.assertEqual("red", get_movie_rating_percentage_color(10))
