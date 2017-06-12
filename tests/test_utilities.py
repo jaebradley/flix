@@ -53,3 +53,11 @@ class TestGetMovieRatingPercentageColor(TestCase):
 
     def test_returns_color_for_rating_percentage_less_than_or_equal_to_100(self):
         self.assertEqual("green", get_movie_rating_percentage_color(100))
+
+
+class TestGetFormattedBoolean(TestCase):
+    def test_true_returns_checkmark(self):
+        self.assertEqual("✔", get_formatted_boolean(True))
+
+    def test_false_returns_x(self):
+        self.assertEqual("✗", get_formatted_boolean(False))
