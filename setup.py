@@ -3,7 +3,7 @@ setup(
   name="flix",
   packages=find_packages(exclude=["tests*"]),
   install_requires=[
-    "Click==6.7",
+    "click==6.7",
     "flixster==0.0.2",
     "colored==1.3.5",
     "termcolor==1.1.0",
