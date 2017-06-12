@@ -90,3 +90,20 @@ class TestGetCategoryColor(TestCase):
 
     def test_imax_4k(self):
         self.assertEqual("magenta", get_category_color(PresentationCategory.IMAX_4K))
+
+
+class TestMPAARatingColor(TestCase):
+    def test_unknown_rating_returns(self):
+        self.assertEqual("purple", get_mpaa_rating_color("jaebaebae"))
+
+    def test_g_rating_returns(self):
+        self.assertEqual("green", get_mpaa_rating_color("G"))
+
+    def test_pg_rating_returns(self):
+        self.assertEqual("blue", get_mpaa_rating_color("PG"))
+
+    def test_pg_13_rating_returns(self):
+        self.assertEqual("yellow", get_mpaa_rating_color("PG-13"))
+
+    def test_r_rating_returns(self):
+        self.assertEqual("red", get_mpaa_rating_color("R"))
