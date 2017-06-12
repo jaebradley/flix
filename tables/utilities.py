@@ -90,4 +90,4 @@ def get_category_color(category):
     if category == PresentationCategory.IMAX_4K:
         return "magenta"
 
-    raise RuntimeError("Unknown category: {category}".format(category=category))
+    raise ValueError("Unknown category: {category}".format(category=category))
