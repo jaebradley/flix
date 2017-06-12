@@ -58,7 +58,10 @@ def get_movie_rating_percentage_color(rating_percentage):
     if rating_percentage < 80:
         return "blue"
 
-    return "green"
+    if rating_percentage <= 100:
+        return "green"
+
+    raise ValueError("Unexpected rating percentage: {rating_percentage}".format(rating_percentage=rating_percentage))
 
 
 def get_formatted_boolean(value):

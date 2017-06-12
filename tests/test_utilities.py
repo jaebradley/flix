@@ -33,3 +33,23 @@ class TestGetCategoryName(TestCase):
 
     def test_imax_3k(self):
         self.assertEqual("IMAX in 4K", get_category_name(PresentationCategory.IMAX_4K))
+
+
+class TestGetMovieRatingPercentageColor(TestCase):
+    def test_throws_exception_for_unexpected_rating(self):
+        self.assertRaises(ValueError, get_movie_rating_percentage_color, "jaebaebae")
+
+    def test_returns_color_for_rating_percentage_less_than_20(self):
+        self.assertEqual("red", get_movie_rating_percentage_color(10))
+
+    def test_returns_color_for_rating_percentage_less_than_40(self):
+        self.assertEqual("yellow", get_movie_rating_percentage_color(30))
+
+    def test_returns_color_for_rating_percentage_less_than_60(self):
+        self.assertEqual("magenta", get_movie_rating_percentage_color(50))
+
+    def test_returns_color_for_rating_percentage_less_than_80(self):
+        self.assertEqual("blue", get_movie_rating_percentage_color(70))
+
+    def test_returns_color_for_rating_percentage_less_than_or_equal_to_100(self):
+        self.assertEqual("green", get_movie_rating_percentage_color(100))
