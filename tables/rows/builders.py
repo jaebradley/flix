@@ -66,7 +66,7 @@ def get_movie_details_cell(movie):
 {run_time_header}: {run_time}
     """.format(title=get_formatted_movie_title(movie.title),
                release_date_header=get_formatted_header("Release Date"),
-               release_date=movie.release_date.strftime("%-m/%-d"),
+               release_date=movie.release_date if movie.release_date is None else movie.release_date.strftime("%-m/%-d"),
                mpaa_rating_header=get_formatted_header("MPAA"),
                mpaa_rating=get_formatted_mpaa_rating(movie.mpaa_rating),
                run_time_header=get_formatted_header("Runtime"),
