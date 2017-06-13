@@ -19,6 +19,10 @@ def parse_presentation(presentation_details):
                         performances=parse_performances(presentation_details["traitGroups"][0]["performances"]))
 
 
+def parse_presentations(presentations):
+    return [parse_presentation(presentation) for presentation in presentations]
+
+
 def parse_performance(performance_details):
     return Performance(start_time=parser.parse(performance_details["isoDate"]), code=performance_details["code"])
 
@@ -28,8 +32,8 @@ def parse_movie_schedules(schedule_details):
 
 
 def parse_movie_schedule(schedule_detail):
-    presentations = [parse_presentation(presentation) for presentation in schedule_detail["presentations"]]
-    return MovieSchedule(movie_id=schedule_detail["id"], presentations=presentations)
+    return MovieSchedule(movie_id=schedule_detail["id"],
+                         presentations=parse_presentations(schedule_detail["presentations"]))
 
 
 def parse_performances(performances):

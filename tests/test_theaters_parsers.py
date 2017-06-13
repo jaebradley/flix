@@ -3,7 +3,7 @@ from unittest import TestCase
 from mock import patch
 
 from data import Address, Presentation, PresentationCategory, Performance, MovieSchedule, Theater
-from data.parsers.theaters import parse_address, parse_presentation, parse_performance, parse_movie_schedules
+from data.parsers.theaters import parse_address, parse_presentation, parse_performance, parse_movie_schedules, parse_movie_schedule, parse_performances, parse_movies, parse_theater, parse_presentations
 
 
 class TestParseAddress(TestCase):
@@ -78,3 +78,19 @@ class TestParseMovieSchedules(TestCase):
         mocked_movie_schedule_parser.assert_any_call(1)
         mocked_movie_schedule_parser.assert_any_call(2)
         mocked_movie_schedule_parser.assert_any_call(3)
+
+
+class TestParseMovieSchedule(TestCase):
+    @patch("data.parsers.theaters.parse_presentations")
+    def test_returns_movie_schedule(self, mocked_presentations_parser):
+        movie_id = "movie id"
+        presentations = "presentations"
+        schedule_detail = {
+            "id": movie_id,
+            "presentations": presentations
+        }
+        parsed_presentations = "parsed presentations"
+        mocked_presentations_parser.return_value = parsed_presentations
+        expected = MovieSchedule(movie_id=movie_id, presentations=parsed_presentations)
+        self.assertEqual(expected, parse_movie_schedule(schedule_detail))
+        mocked_presentations_parser.assert_called_once_with(presentations)
