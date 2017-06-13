@@ -64,3 +64,17 @@ class TestParsePerformance(TestCase):
         expected = Performance(start_time=start_time, code=code)
         self.assertEqual(expected, parse_performance(performance_details))
         mocked_date_parser.assert_called_once_with(iso_date)
+
+
+class TestParseMovieSchedules(TestCase):
+    @patch("data.parsers.theaters.parse_movie_schedule")
+    def test_returns_movie_schedules(self, mocked_movie_schedule_parser):
+        schedule_details = [1, 2, 3]
+        movie_schedule = "movie schedule"
+        mocked_movie_schedule_parser.return_value = movie_schedule
+        expected = [movie_schedule, movie_schedule, movie_schedule]
+        self.assertEqual(expected, parse_movie_schedules(schedule_details))
+        self.assertEqual(3, mocked_movie_schedule_parser.call_count)
+        mocked_movie_schedule_parser.assert_any_call(1)
+        mocked_movie_schedule_parser.assert_any_call(2)
+        mocked_movie_schedule_parser.assert_any_call(3)
