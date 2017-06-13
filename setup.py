@@ -6,9 +6,9 @@ setup(
     "click==6.7",
     "flixster==0.0.2",
     "colored==1.3.5",
-    "termcolor==1.1.0",
     "python-dateutil==2.6.0",
-    "terminaltables==3.1.0"
+    "terminaltables==3.1.0",
+    "enum34==1.1.6"
   ],
   version="0.0.1",
   description="Movie CLI",
