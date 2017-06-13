@@ -80,7 +80,7 @@ class TestGetCategoryColor(TestCase):
         self.assertEqual("yellow", get_category_color(PresentationCategory.FOUR_K))
 
     def test_three_d_four_k(self):
-        self.assertEqual("purple", get_category_color(PresentationCategory.THREE_D_4K))
+        self.assertEqual("plum_4", get_category_color(PresentationCategory.THREE_D_4K))
 
     def test_imax_3d(self):
         self.assertEqual("cyan", get_category_color(PresentationCategory.IMAX_3D))
@@ -94,7 +94,7 @@ class TestGetCategoryColor(TestCase):
 
 class TestMPAARatingColor(TestCase):
     def test_unknown_rating_returns(self):
-        self.assertEqual("purple", get_mpaa_rating_color("jaebaebae"))
+        self.assertEqual("plum_4", get_mpaa_rating_color("jaebaebae"))
 
     def test_g_rating_returns(self):
         self.assertEqual("green", get_mpaa_rating_color("G"))
