@@ -66,20 +66,6 @@ class TestParsePerformance(TestCase):
         mocked_date_parser.assert_called_once_with(iso_date)
 
 
-class TestParseMovieSchedules(TestCase):
-    @patch("data.parsers.theaters.parse_movie_schedule")
-    def test_returns_movie_schedules(self, mocked_movie_schedule_parser):
-        schedule_details = [1, 2, 3]
-        movie_schedule = "movie schedule"
-        mocked_movie_schedule_parser.return_value = movie_schedule
-        expected = [movie_schedule, movie_schedule, movie_schedule]
-        self.assertEqual(expected, parse_movie_schedules(schedule_details))
-        self.assertEqual(3, mocked_movie_schedule_parser.call_count)
-        mocked_movie_schedule_parser.assert_any_call(1)
-        mocked_movie_schedule_parser.assert_any_call(2)
-        mocked_movie_schedule_parser.assert_any_call(3)
-
-
 class TestParseMovieSchedule(TestCase):
     @patch("data.parsers.theaters.parse_presentations")
     def test_returns_movie_schedule(self, mocked_presentations_parser):
@@ -94,3 +80,44 @@ class TestParseMovieSchedule(TestCase):
         expected = MovieSchedule(movie_id=movie_id, presentations=parsed_presentations)
         self.assertEqual(expected, parse_movie_schedule(schedule_detail))
         mocked_presentations_parser.assert_called_once_with(presentations)
+
+
+class TestParseTheater(TestCase):
+    @patch("data.parsers.theaters.parse_address")
+    @patch("data.parsers.theaters.parse_movie_schedules")
+    def test_returns_theater(self, mocked_movie_schedules_parser, mocked_address_parser):
+        fid = "fid"
+        name = "name"
+        has_fees = "has fees"
+        has_tickets = "has tickets"
+        ticket_source = "ticket source"
+        screen_count = "screen count"
+        map_uri = "map uri"
+        phone_number = "phone number"
+        address = "address"
+        parsed_address = "parsed address"
+        seating = "seating"
+        movie_schedules = "movie schedules"
+        parsed_movie_schedules = "parsed movie schedules"
+        theater_details = {
+            "id": fid,
+            "name": name,
+            "hasFees": has_fees,
+            "tickets": has_tickets,
+            "ticketSource": ticket_source,
+            "screens": screen_count,
+            "map": map_uri,
+            "callablePhone": phone_number,
+            "address": address,
+            "tags": {
+                "seating": seating
+            },
+            "movies": movie_schedules
+        }
+        mocked_address_parser.return_value = parsed_address
+        mocked_movie_schedules_parser.return_value = parsed_movie_schedules
+        expected = Theater(fid=fid, name=name, has_fees=has_fees, has_tickets=has_tickets,
+                           screen_count=screen_count, ticket_source=ticket_source, map_uri=map_uri,
+                           phone_number=phone_number, address=parsed_address, seating=seating,
+                           movie_schedules=parsed_movie_schedules)
+        self.assertEqual(expected, parse_theater(theater_details))
