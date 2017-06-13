@@ -2,8 +2,8 @@ from unittest import TestCase
 
 from mock import patch
 
-from data import Address, Presentation, PresentationCategory, Performance, MovieSchedule, Theater
-from data.parsers.theaters import parse_address, parse_presentation, parse_performance, parse_movie_schedules, parse_movie_schedule, parse_performances, parse_movies, parse_theater, parse_presentations
+from data import Address, Presentation, Performance, MovieSchedule, Theater
+from data.parsers.theaters import parse_address, parse_presentation, parse_performance, parse_movie_schedule, parse_theater
 
 
 class TestParseAddress(TestCase):
@@ -30,24 +30,26 @@ class TestParseAddress(TestCase):
 
 class TestParsePresentation(TestCase):
     @patch("data.PresentationCategory.identify")
-    @patch("data.parsers.theaters.parse_performances")
-    def test_returns_presentation(self, mocked_performances_parser, mocked_category_identifier):
+    @patch("data.parsers.theaters.parse_performance")
+    def test_returns_presentation(self, mocked_performance_parser, mocked_category_identifier):
         presentation_category = "presentation category"
-        parsed_performances = "parsed performances"
+        parsed_performance = "parsed performance"
         name = "name"
-        performances = "performances"
+        performances = [1, 2]
         presentation_details = {
             "name": name,
             "traitGroups": [{
                 "performances": performances
             }]
         }
-        mocked_performances_parser.return_value = parsed_performances
+        mocked_performance_parser.return_value = parsed_performance
         mocked_category_identifier.return_value = presentation_category
-        expected = Presentation(category=presentation_category, performances=parsed_performances)
+        expected = Presentation(category=presentation_category, performances=[parsed_performance, parsed_performance])
         self.assertEqual(expected, parse_presentation(presentation_details))
         mocked_category_identifier.assert_called_once_with(value=name)
-        mocked_performances_parser.assert_called_once_with(performances)
+        self.assertEqual(2, mocked_performance_parser.call_count)
+        mocked_performance_parser.assert_any_call(1)
+        mocked_performance_parser.assert_any_call(2)
 
 
 class TestParsePerformance(TestCase):
@@ -67,25 +69,27 @@ class TestParsePerformance(TestCase):
 
 
 class TestParseMovieSchedule(TestCase):
-    @patch("data.parsers.theaters.parse_presentations")
-    def test_returns_movie_schedule(self, mocked_presentations_parser):
+    @patch("data.parsers.theaters.parse_presentation")
+    def test_returns_movie_schedule(self, mocked_presentation_parser):
         movie_id = "movie id"
-        presentations = "presentations"
+        presentations = [1, 2]
         schedule_detail = {
             "id": movie_id,
             "presentations": presentations
         }
-        parsed_presentations = "parsed presentations"
-        mocked_presentations_parser.return_value = parsed_presentations
-        expected = MovieSchedule(movie_id=movie_id, presentations=parsed_presentations)
+        parsed_presentation = "parsed presentation"
+        mocked_presentation_parser.return_value = parsed_presentation
+        expected = MovieSchedule(movie_id=movie_id, presentations=[parsed_presentation, parsed_presentation])
         self.assertEqual(expected, parse_movie_schedule(schedule_detail))
-        mocked_presentations_parser.assert_called_once_with(presentations)
+        self.assertEqual(2, mocked_presentation_parser.call_count)
+        mocked_presentation_parser.assert_any_call(1)
+        mocked_presentation_parser.assert_any_call(2)
 
 
 class TestParseTheater(TestCase):
     @patch("data.parsers.theaters.parse_address")
-    @patch("data.parsers.theaters.parse_movie_schedules")
-    def test_returns_theater(self, mocked_movie_schedules_parser, mocked_address_parser):
+    @patch("data.parsers.theaters.parse_movie_schedule")
+    def test_returns_theater(self, mocked_movie_schedule_parser, mocked_address_parser):
         fid = "fid"
         name = "name"
         has_fees = "has fees"
@@ -97,8 +101,8 @@ class TestParseTheater(TestCase):
         address = "address"
         parsed_address = "parsed address"
         seating = "seating"
-        movie_schedules = "movie schedules"
-        parsed_movie_schedules = "parsed movie schedules"
+        movie_schedules = [1, 2]
+        parsed_movie_schedule = "parsed movie schedule"
         theater_details = {
             "id": fid,
             "name": name,
@@ -115,9 +119,9 @@ class TestParseTheater(TestCase):
             "movies": movie_schedules
         }
         mocked_address_parser.return_value = parsed_address
-        mocked_movie_schedules_parser.return_value = parsed_movie_schedules
+        mocked_movie_schedule_parser.return_value = parsed_movie_schedule
         expected = Theater(fid=fid, name=name, has_fees=has_fees, has_tickets=has_tickets,
                            screen_count=screen_count, ticket_source=ticket_source, map_uri=map_uri,
                            phone_number=phone_number, address=parsed_address, seating=seating,
-                           movie_schedules=parsed_movie_schedules)
+                           movie_schedules=[parsed_movie_schedule, parsed_movie_schedule])
         self.assertEqual(expected, parse_theater(theater_details))
