@@ -42,7 +42,7 @@ def get_mpaa_rating_color(mpaa_rating):
     if mpaa_rating == "R":
         return "red"
 
-    return "purple"
+    return "plum_4"
 
 
 def get_movie_rating_percentage_color(rating_percentage):
@@ -82,7 +82,7 @@ def get_category_color(category):
         return "yellow"
 
     if category == PresentationCategory.THREE_D_4K:
-        return "purple"
+        return "plum_4"
 
     if category == PresentationCategory.IMAX_3D:
         return "cyan"

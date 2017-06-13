@@ -34,5 +34,6 @@ def flix(name, tomorrow, month, day, limit):
             click.echo(build_table(movie_presentations))
         else:
             click.echo("No flix found")
-    except Exception:
+    except Exception as e:
+        click.echo(e)
         click.echo("Unable to show any flix")
