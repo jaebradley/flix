@@ -15,31 +15,22 @@ def parse_address(address_details):
 
 def parse_presentation(presentation_details):
     # looks like only one trait group?
+    performances = [parse_performance(performance) for performance in presentation_details["traitGroups"][0]["performances"]]
     return Presentation(category=PresentationCategory.identify(value=presentation_details["name"]),
-                        performances=parse_performances( presentation_details["traitGroups"][0]["performances"]))
+                        performances=performances)
 
 
 def parse_performance(performance_details):
     return Performance(start_time=parser.parse(performance_details["isoDate"]), code=performance_details["code"])
 
 
-def parse_movie_schedule(schedule_details):
-    schedules = []
-    for schedule_detail in schedule_details:
-        presentations = [parse_presentation(presentation) for presentation in schedule_detail["presentations"]]
-        schedules.append(MovieSchedule(movie_id=schedule_detail["id"], presentations=presentations))
-    return schedules
-
-
-def parse_performances(performances):
-    return [parse_performance(performance) for performance in performances]
-
-
-def parse_movies(movies_details):
-    return [parse_movie_schedule(movie_schedule) for movie_schedule in movies_details["movies"]]
+def parse_movie_schedule(schedule_detail):
+    presentations = [parse_presentation(presentation) for presentation in schedule_detail["presentations"]]
+    return MovieSchedule(movie_id=schedule_detail["id"], presentations=presentations)
 
 
 def parse_theater(theater_details):
+    movie_schedules = [parse_movie_schedule(schedule_detail) for schedule_detail in theater_details["movies"]]
     return Theater(fid=theater_details["id"],
                    name=theater_details["name"],
                    has_fees=theater_details["hasFees"],
@@ -50,4 +41,4 @@ def parse_theater(theater_details):
                    phone_number=theater_details["callablePhone"],
                    address=parse_address(theater_details["address"]),
                    seating=theater_details["tags"]["seating"],
-                   movie_schedules=parse_movie_schedule(theater_details["movies"]))
+                   movie_schedules=movie_schedules)
