@@ -48,3 +48,19 @@ class TestParsePresentation(TestCase):
         self.assertEqual(expected, parse_presentation(presentation_details))
         mocked_category_identifier.assert_called_once_with(value=name)
         mocked_performances_parser.assert_called_once_with(performances)
+
+
+class TestParsePerformance(TestCase):
+    @patch("data.parsers.theaters.parser.parse")
+    def test_returns_performance(self, mocked_date_parser):
+        iso_date = "isoDate"
+        code = "code"
+        start_time = "start time"
+        performance_details = {
+            "isoDate": iso_date,
+            "code": code
+        }
+        mocked_date_parser.return_value = start_time
+        expected = Performance(start_time=start_time, code=code)
+        self.assertEqual(expected, parse_performance(performance_details))
+        mocked_date_parser.assert_called_once_with(iso_date)
